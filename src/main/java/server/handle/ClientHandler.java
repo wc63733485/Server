@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ClientHandler {
-    private final MongoDao md = new MongoDao("device");
+    private final MongoDao md = new MongoDao();
     private final BaseDao baseDao = new BaseDao();
     private final SocketChannel socketChannel;
     private final ClientReadHandler readHandler;
