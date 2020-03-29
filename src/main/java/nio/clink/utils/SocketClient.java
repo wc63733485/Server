@@ -1,4 +1,4 @@
-package clink.utils;
+package nio.clink.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;

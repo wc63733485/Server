@@ -1,4 +1,4 @@
-package foo;
+package nio.foo;
 
 public class Foo {
 }

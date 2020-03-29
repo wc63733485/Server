@@ -1,4 +1,4 @@
-package clink.utils;
+package nio.clink.utils;
 
 public class ByteUtils {
     /**

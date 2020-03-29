@@ -1,4 +1,4 @@
-package Entity;
+package nio.Entity;
 
 import com.sws.base.annotations.Column;
 import com.sws.base.annotations.Entity;

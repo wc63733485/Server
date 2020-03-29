@@ -1,11 +1,3 @@
-import Entity.DeviceEntity;
-import com.alibaba.fastjson.JSONObject;
-import com.sws.base.dao.MongoDao;
-import com.sws.base.initializeLoad.InitializeConfig;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class Test {
 
 //    public static void main(String[] args) throws Exception {

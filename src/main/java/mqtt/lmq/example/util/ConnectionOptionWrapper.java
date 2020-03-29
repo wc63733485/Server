@@ -21,14 +21,6 @@ public class ConnectionOptionWrapper {
      */
     private String instanceId;
     /**
-     * 账号 accesskey，从账号系统控制台获取
-     */
-    private String accessKey;
-    /**
-     * 账号 secretKey，从账号系统控制台获取，仅在Signature鉴权模式下需要设置
-     */
-    private String secretKey;
-    /**
      * MQ4IOT clientId，由业务系统分配，需要保证每个 tcp 连接都不一样，保证全局唯一，如果不同的客户端对象（tcp 连接）使用了相同的 clientId 会导致连接异常断开。
      * clientId 由两部分组成，格式为 GroupID@@@DeviceId，其中 groupId 在 MQ4IOT 控制台申请，DeviceId 由业务方自己设置，clientId 总长度不得超过64个字符。
      */
@@ -50,7 +42,6 @@ public class ConnectionOptionWrapper {
     public ConnectionOptionWrapper(String instanceId, String accessKey, String clientId,
         Map<String, String> tokenData) {
         this.instanceId = instanceId;
-        this.accessKey = accessKey;
         this.clientId = clientId;
         if (tokenData != null) {
             this.tokenData.putAll(tokenData);
@@ -83,8 +74,6 @@ public class ConnectionOptionWrapper {
     public ConnectionOptionWrapper(String instanceId, String accessKey, String secretKey,
         String clientId) throws NoSuchAlgorithmException, InvalidKeyException {
         this.instanceId = instanceId;
-        this.accessKey = accessKey;
-        this.secretKey = secretKey;
         this.clientId = clientId;
         mqttConnectOptions = new MqttConnectOptions();
         mqttConnectOptions.setUserName("Signature|" + accessKey + "|" + instanceId);

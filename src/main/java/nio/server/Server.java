@@ -1,19 +1,17 @@
-package server;
+package nio.server;
 
-import com.sws.base.initializeLoad.InitializeConfig;
 
 import java.io.IOException;
 
 public class Server {
 
     public static void main(String[] args) throws IOException {
-        InitializeConfig.init();
-        TCPServer tcpServer = new TCPServer(9087);
-        boolean isSucceed = tcpServer.start();
-        if (!isSucceed) {
-            System.out.println("Start TCP server failed!");
-            return;
-        }
+//        TCPServer tcpServer = new TCPServer(9087);
+//        boolean isSucceed = tcpServer.start();
+//        if (!isSucceed) {
+//            System.out.println("Start TCP server failed!");
+//            return;
+//        }
 
 
 //        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));

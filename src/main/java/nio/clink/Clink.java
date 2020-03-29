@@ -1,4 +1,4 @@
-package clink;
+package nio.clink;
 
 public class Clink {
 }
