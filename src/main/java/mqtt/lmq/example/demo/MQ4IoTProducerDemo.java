@@ -13,7 +13,7 @@ public class MQ4IoTProducerDemo {
 
     public static void main(String[] args) {
         System.out.println("client start...");
-        MyMqtt myMqtt = new MyMqtt("client");
+        MyMqtt myMqtt = new MyMqtt("300219070310");
         myMqtt.subscribe(myTopics, myQos);
     }
 }
