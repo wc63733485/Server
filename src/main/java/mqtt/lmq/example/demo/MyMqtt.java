@@ -1,15 +1,17 @@
 package mqtt.lmq.example.demo;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sws.base.dao.MongoDao;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Calendar;
+
 public class MyMqtt {
 
-    @Autowired
-    private MongoDao mongoDao;
+    MongoDao mongoDao = new MongoDao();
 
     private String host = "tcp://39.96.74.32:1883";
     private String userName = "wxc";
@@ -33,7 +35,7 @@ public class MyMqtt {
             options.setUserName(userName);
             options.setPassword(passWord.toCharArray());
             options.setConnectionTimeout(10);
-            options.setKeepAliveInterval(20);
+            options.setKeepAliveInterval(2);
             if (callback == null) {
                 client.setCallback(new MqttCallback() {
 
@@ -51,7 +53,17 @@ public class MyMqtt {
 
                     @Override
                     public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
-                        mongoDao.insert(JSONObject.parseObject(arg1.toString()),id);
+
+                        JSONObject jso = new JSONObject();
+                        JSONObject jsonObject1 = JSONObject.parseObject(arg1.toString());
+                        jso.put("time",Calendar.getInstance().getTime().getTime());
+                        JSONArray data = jsonObject1.getJSONArray("Data");
+                        for (Object object:data) {
+                            JSONObject jsonObject = JSONObject.parseObject(object.toString());
+                            jso.put(jsonObject.getString("name"),jsonObject.getString("value"));
+                        }
+                        System.out.println(id +"--"+jso.toJSONString());
+                        mongoDao.insert(jso,id);
                     }
                 });
             } else {
