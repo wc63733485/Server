@@ -13,7 +13,7 @@ public class MyMqtt {
 
     MongoDao mongoDao = new MongoDao();
 
-    private String host = "tcp://39.96.74.32:1883";
+    private String host = "tcp://39.107.221.228:1883";
     private String userName = "wxc";
     private String passWord = "123123";
     private MqttClient client;
