@@ -1,5 +1,6 @@
 package nio.server.handle;
 
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import nio.Entity.DeviceEntity;
@@ -7,7 +8,6 @@ import nio.Entity.DeviceUnitEntity;
 import nio.clink.utils.CloseUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.sws.base.dao.BaseDao;
-import com.sws.base.dao.MongoDao;
 import org.bson.Document;
 import util.MongoDBUtil;
 
@@ -22,7 +22,6 @@ import java.util.concurrent.Executors;
 
 public class ClientHandler {
 
-    private final MongoDatabase device = MongoDBUtil.getInstance().getDatabase("device");
     private final BaseDao baseDao = new BaseDao();
     private final SocketChannel socketChannel;
     private final ClientReadHandler readHandler;
@@ -193,9 +192,11 @@ public class ClientHandler {
                                             jsonObject.put(entry.getValue(), Integer.parseInt(Integer.toHexString(array[Integer.parseInt(entry.getKey())] & 0xFF), 16));
                                         }
                                     }
-                                    MongoCollection<Document> collection = device.getCollection(ret);
+                                    MongoClient instance = MongoDBUtil.getInstance();
+                                    MongoCollection<Document> collection = instance.getDatabase("device").getCollection(ret);
                                     Document d = Document.parse(jsonObject.toString());
                                     collection.insertOne(d);
+                                    instance.close();
                                 }
 
 

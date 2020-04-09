@@ -2,6 +2,7 @@ package mqtt.lmq.example.demo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.sws.base.dao.BaseDao;
@@ -19,7 +20,6 @@ public class MyMqtt {
 
     private final BaseDao baseDao = new BaseDao();
 
-    private final MongoDatabase device = MongoDBUtil.getInstance().getDatabase("device");
     private static List<DeviceUnitEntity> map;
     private static HashMap<String, Integer> r;
 
@@ -103,12 +103,16 @@ public class MyMqtt {
                             JSONObject jsonObject = JSONObject.parseObject(object.toString());
                             String name = jsonObject.getString("name");
                             if (r.containsKey(name)) {
-                                jso.put(name, jsonObject.getDouble("value") / Math.pow(10,r.get(name)));
+                                jso.put(name, jsonObject.getDouble("value") / Math.pow(10, r.get(name)));
                             }
                         }
-                        MongoCollection<Document> collection = device.getCollection(id);
+
+                        MongoClient instance = MongoDBUtil.getInstance();
+                        MongoCollection<Document> collection = instance.getDatabase("device").getCollection(id);
                         Document d = Document.parse(jso.toString());
                         collection.insertOne(d);
+                        instance.close();
+
                     }
                 });
             } else {
