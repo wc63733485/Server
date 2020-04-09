@@ -44,6 +44,18 @@ public class DeviceUnitEntity {
     @Column("message_number")
     private String messageNumber;
 
+    public Integer getMove() {
+        return move;
+    }
+
+    public void setMove(Integer move) {
+        this.move = move;
+    }
+
+    @Column("move")
+
+    private Integer move;
+
     public Integer getId() {
         return id;
     }
