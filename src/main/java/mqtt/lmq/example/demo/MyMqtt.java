@@ -2,24 +2,22 @@ package mqtt.lmq.example.demo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.sws.base.dao.BaseDao;
+import com.sws.base.dao.MongoDao;
 import nio.Entity.DeviceEntity;
 import nio.Entity.DeviceUnitEntity;
-import org.bson.Document;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import util.MongoDBUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
 public class MyMqtt {
 
-
+    private final MongoDao mongoDao = new MongoDao();
     private final BaseDao baseDao = new BaseDao();
 
+    String ret = "";
     private static List<DeviceUnitEntity> map;
     private static HashMap<String, Integer> r;
 
@@ -28,8 +26,9 @@ public class MyMqtt {
     private String passWord = "123123";
     private MqttClient client;
     private String id;
-    private static MyMqtt instance;
+    private static MyMqtt instance; // = new MyMqtt();
     private MqttTopic mqttTopic;
+    //    private String myTopic = "Topics/htjs/serverToPhone";
     private MqttMessage message;
 
     public MyMqtt(String id) {
@@ -46,7 +45,6 @@ public class MyMqtt {
             options.setPassword(passWord.toCharArray());
             options.setConnectionTimeout(10);
             options.setKeepAliveInterval(30);
-
             if (callback == null) {
                 client.setCallback(new MqttCallback() {
 
@@ -96,23 +94,17 @@ public class MyMqtt {
                         JSONObject jso = new JSONObject();
                         JSONObject jsonObject1 = JSONObject.parseObject(arg1.toString());
                         jso.put("time", Calendar.getInstance().getTime().getTime());
-                        jso.put("mqtttime", jsonObject1.getString("time"));
-
+                        System.out.println(jsonObject1.getString("time"));
                         JSONArray data = jsonObject1.getJSONArray("Data");
                         for (Object object : data) {
                             JSONObject jsonObject = JSONObject.parseObject(object.toString());
                             String name = jsonObject.getString("name");
                             if (r.containsKey(name)) {
-                                jso.put(name, jsonObject.getDouble("value") / Math.pow(10, r.get(name)));
+                                jso.put(name, jsonObject.getDouble("value") / Math.pow(10,r.get(name)));
                             }
                         }
-
-                        MongoClient instance = MongoDBUtil.getInstance();
-                        MongoCollection<Document> collection = instance.getDatabase("device").getCollection(id);
-                        Document d = Document.parse(jso.toString());
-                        collection.insertOne(d);
-                        instance.close();
-
+                        System.out.println(id + "--" + jso.toJSONString());
+                        mongoDao.insert(jso, id);
                     }
                 });
             } else {
