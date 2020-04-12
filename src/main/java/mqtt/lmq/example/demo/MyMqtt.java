@@ -9,12 +9,15 @@ import nio.Entity.DeviceUnitEntity;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.*;
 
 public class MyMqtt {
 
-    private final MongoDao mongoDao = new MongoDao();
+    @Autowired
+    public MongoTemplate mongoTemplate;
+
     private final BaseDao baseDao = new BaseDao();
 
     String ret = "";
@@ -94,7 +97,7 @@ public class MyMqtt {
                         JSONObject jso = new JSONObject();
                         JSONObject jsonObject1 = JSONObject.parseObject(arg1.toString());
                         jso.put("time", Calendar.getInstance().getTime().getTime());
-                        System.out.println(jsonObject1.getString("time"));
+                        System.out.print(jsonObject1.getString("time")+":");
                         JSONArray data = jsonObject1.getJSONArray("Data");
                         for (Object object : data) {
                             JSONObject jsonObject = JSONObject.parseObject(object.toString());
@@ -104,7 +107,7 @@ public class MyMqtt {
                             }
                         }
                         System.out.println(id + "--" + jso.toJSONString());
-                        mongoDao.insert(jso, id);
+                        mongoTemplate.insert(jso,id);
                     }
                 });
             } else {
