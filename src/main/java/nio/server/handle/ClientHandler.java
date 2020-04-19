@@ -1,10 +1,10 @@
 package nio.server.handle;
 
+import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import nio.Entity.DeviceEntity;
 import nio.Entity.DeviceUnitEntity;
 import nio.clink.utils.CloseUtils;
 import com.alibaba.fastjson.JSONObject;
-import com.sws.base.dao.BaseDao;
 import com.sws.base.dao.MongoDao;
 
 import java.io.IOException;
@@ -18,7 +18,7 @@ import java.util.concurrent.Executors;
 
 public class ClientHandler {
     private final MongoDao md = new MongoDao();
-    private final BaseDao baseDao = new BaseDao();
+
     private final SocketChannel socketChannel;
     private final ClientReadHandler readHandler;
     private final ClientWriteHandler writeHandler;
@@ -122,46 +122,48 @@ public class ClientHandler {
                             if (read > 0) {
                                 byte[] array = this.byteBuffer.array();
 
-                                if (map == null) {
-                                    System.out.println("数据转换加载");
-                                    map = new HashMap();
-                                    DeviceUnitEntity due = null;
-                                    DeviceEntity de = new DeviceEntity();
-                                    byte[] bytes = Arrays.copyOfRange(array, 0, 4);
-                                    for (int i = 0; i < bytes.length; i++) {
-                                        String hex = Integer.toHexString(bytes[i] & 0xFF);
-                                        if (hex.length() == 1) {
-                                            hex = '0' + hex;
-                                        }
-                                        ret += hex.toUpperCase();
-                                    }
-                                    de.setCode(ret);
-                                    DeviceEntity deviceEntity = baseDao.queryOne(de, DeviceEntity.class);
-                                    if (deviceEntity != null) {
-                                        //以下代码代表设备类型字段会覆盖掉型号和版本的数据字段
-                                        due = new DeviceUnitEntity();
-                                        due.setDeviceTypeId(deviceEntity.getDeviceTypeId());
-                                        List<DeviceUnitEntity> deviceUnitEntities1 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
-                                        due = new DeviceUnitEntity();
-                                        due.setDeviceModelId(deviceEntity.getDeviceModelId());
-                                        List<DeviceUnitEntity> deviceUnitEntities2 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
-                                        due = new DeviceUnitEntity();
-                                        due.setDeviceEditionId(deviceEntity.getDeviceEditionId());
-                                        List<DeviceUnitEntity> deviceUnitEntities3 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
-                                        for (DeviceUnitEntity deviceUnitEntity : deviceUnitEntities1) {
-                                            if (deviceUnitEntity.getMessageNumber().contains("/")) {
-                                                String[] split = deviceUnitEntity.getMessageNumber().split("/");
-                                            }
-                                            map.put(deviceUnitEntity.getMessageNumber(), deviceUnitEntity.getDataName());
-                                        }
-                                        for (DeviceUnitEntity deviceUnitEntity : deviceUnitEntities2) {
-                                            map.put(deviceUnitEntity.getMessageNumber(), deviceUnitEntity.getDataName());
-                                        }
-                                        for (DeviceUnitEntity deviceUnitEntity : deviceUnitEntities3) {
-                                            map.put(deviceUnitEntity.getMessageNumber(), deviceUnitEntity.getDataName());
-                                        }
-                                    }
-                                }
+                                String s = new String(array);
+                                System.out.println("---:"+s);
+//                                if (map == null) {
+//                                    System.out.println("数据转换加载");
+//                                    map = new HashMap();
+//                                    DeviceUnitEntity due = null;
+//                                    DeviceEntity de = new DeviceEntity();
+//                                    byte[] bytes = Arrays.copyOfRange(array, 0, 4);
+//                                    for (int i = 0; i < bytes.length; i++) {
+//                                        String hex = Integer.toHexString(bytes[i] & 0xFF);
+//                                        if (hex.length() == 1) {
+//                                            hex = '0' + hex;
+//                                        }
+//                                        ret += hex.toUpperCase();
+//                                    }
+//                                    de.setCode(ret);
+//                                    DeviceEntity deviceEntity = baseDao.queryOne(de, DeviceEntity.class);
+//                                    if (deviceEntity != null) {
+//                                        //以下代码代表设备类型字段会覆盖掉型号和版本的数据字段
+//                                        due = new DeviceUnitEntity();
+//                                        due.setDeviceTypeId(deviceEntity.getDeviceTypeId());
+//                                        List<DeviceUnitEntity> deviceUnitEntities1 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
+//                                        due = new DeviceUnitEntity();
+//                                        due.setDeviceModelId(deviceEntity.getDeviceModelId());
+//                                        List<DeviceUnitEntity> deviceUnitEntities2 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
+//                                        due = new DeviceUnitEntity();
+//                                        due.setDeviceEditionId(deviceEntity.getDeviceEditionId());
+//                                        List<DeviceUnitEntity> deviceUnitEntities3 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
+//                                        for (DeviceUnitEntity deviceUnitEntity : deviceUnitEntities1) {
+//                                            if (deviceUnitEntity.getMessageNumber().contains("/")) {
+//                                                String[] split = deviceUnitEntity.getMessageNumber().split("/");
+//                                            }
+//                                            map.put(deviceUnitEntity.getMessageNumber(), deviceUnitEntity.getDataName());
+//                                        }
+//                                        for (DeviceUnitEntity deviceUnitEntity : deviceUnitEntities2) {
+//                                            map.put(deviceUnitEntity.getMessageNumber(), deviceUnitEntity.getDataName());
+//                                        }
+//                                        for (DeviceUnitEntity deviceUnitEntity : deviceUnitEntities3) {
+//                                            map.put(deviceUnitEntity.getMessageNumber(), deviceUnitEntity.getDataName());
+//                                        }
+//                                    }
+//                                }
 
 //                                for (int i = 0; i < array.length; i++) {
 //                                    String hex = Integer.toHexString(array[i] & 0xFF);
@@ -172,24 +174,24 @@ public class ClientHandler {
 //                                }
 //                                System.out.println(" ");
 
-                                if (checkHead(array)) {
-                                    jsonObject = new JSONObject(true);
-                                    jsonObject.put("time",Calendar.getInstance().getTimeInMillis());
-                                    Set<Map.Entry<String, String>> entrys = map.entrySet();  //此行可省略，直接将map.entrySet()写在for-each循环的条件中
-                                    for (Map.Entry<String, String> entry : entrys) {
-                                        if (entry.getKey().contains("/")) {
-                                            String[] split = entry.getKey().split("/");
-                                            int r = 0;
-                                            for (int i = 0; i < split.length; i++) {
-                                                r += Integer.parseInt(Integer.toHexString(array[Integer.parseInt(split[i])] & 0xFF), 16) * (Math.pow(256, split.length - 1 - i));
-                                            }
-                                            jsonObject.put(entry.getValue(), r);
-                                        } else {
-                                            jsonObject.put(entry.getValue(), Integer.parseInt(Integer.toHexString(array[Integer.parseInt(entry.getKey())] & 0xFF), 16));
-                                        }
-                                    }
-                                    md.insert(jsonObject, ret);
-                                }
+//                                if (checkHead(array)) {
+//                                    jsonObject = new JSONObject(true);
+//                                    jsonObject.put("time",Calendar.getInstance().getTimeInMillis());
+//                                    Set<Map.Entry<String, String>> entrys = map.entrySet();  //此行可省略，直接将map.entrySet()写在for-each循环的条件中
+//                                    for (Map.Entry<String, String> entry : entrys) {
+//                                        if (entry.getKey().contains("/")) {
+//                                            String[] split = entry.getKey().split("/");
+//                                            int r = 0;
+//                                            for (int i = 0; i < split.length; i++) {
+//                                                r += Integer.parseInt(Integer.toHexString(array[Integer.parseInt(split[i])] & 0xFF), 16) * (Math.pow(256, split.length - 1 - i));
+//                                            }
+//                                            jsonObject.put(entry.getValue(), r);
+//                                        } else {
+//                                            jsonObject.put(entry.getValue(), Integer.parseInt(Integer.toHexString(array[Integer.parseInt(entry.getKey())] & 0xFF), 16));
+//                                        }
+//                                    }
+//                                    md.insert(jsonObject, ret);
+//                                }
 
 
                                 // 通知到TCPServer

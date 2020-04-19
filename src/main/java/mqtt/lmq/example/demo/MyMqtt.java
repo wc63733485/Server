@@ -2,7 +2,6 @@ package mqtt.lmq.example.demo;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.sws.base.dao.BaseDao;
 import com.sws.base.dao.MongoDao;
 import nio.Entity.DeviceEntity;
 import nio.Entity.DeviceUnitEntity;
@@ -18,7 +17,6 @@ public class MyMqtt {
     @Autowired
     public MongoTemplate mongoTemplate;
 
-    private final BaseDao baseDao = new BaseDao();
 
     String ret = "";
     private static List<DeviceUnitEntity> map;
@@ -66,33 +64,33 @@ public class MyMqtt {
                     @Override
                     public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
 
-                        if (map == null) {
-                            System.out.println("数据转换加载");
-                            map = new ArrayList<DeviceUnitEntity>();
-                            r = new HashMap();
-                            DeviceUnitEntity due = null;
-                            DeviceEntity de = new DeviceEntity();
-                            de.setCode(id);
-                            DeviceEntity deviceEntity = baseDao.queryOne(de, DeviceEntity.class);
-                            if (deviceEntity != null) {
-                                //以下代码代表设备类型字段会覆盖掉型号和版本的数据字段
-                                due = new DeviceUnitEntity();
-                                due.setDeviceTypeId(deviceEntity.getDeviceTypeId());
-                                List<DeviceUnitEntity> deviceUnitEntities1 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
-                                due = new DeviceUnitEntity();
-                                due.setDeviceModelId(deviceEntity.getDeviceModelId());
-                                List<DeviceUnitEntity> deviceUnitEntities2 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
-                                due = new DeviceUnitEntity();
-                                due.setDeviceEditionId(deviceEntity.getDeviceEditionId());
-                                List<DeviceUnitEntity> deviceUnitEntities3 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
-                                map.addAll(deviceUnitEntities1);
-                                map.addAll(deviceUnitEntities2);
-                                map.addAll(deviceUnitEntities3);
-                                for (DeviceUnitEntity deviceUnitEntity : map) {
-                                    r.put(deviceUnitEntity.getDataName(), deviceUnitEntity.getMove());
-                                }
-                            }
-                        }
+//                        if (map == null) {
+//                            System.out.println("数据转换加载");
+//                            map = new ArrayList<DeviceUnitEntity>();
+//                            r = new HashMap();
+//                            DeviceUnitEntity due = null;
+//                            DeviceEntity de = new DeviceEntity();
+//                            de.setCode(id);
+//                            DeviceEntity deviceEntity = baseDao.queryOne(de, DeviceEntity.class);
+//                            if (deviceEntity != null) {
+//                                //以下代码代表设备类型字段会覆盖掉型号和版本的数据字段
+//                                due = new DeviceUnitEntity();
+//                                due.setDeviceTypeId(deviceEntity.getDeviceTypeId());
+//                                List<DeviceUnitEntity> deviceUnitEntities1 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
+//                                due = new DeviceUnitEntity();
+//                                due.setDeviceModelId(deviceEntity.getDeviceModelId());
+//                                List<DeviceUnitEntity> deviceUnitEntities2 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
+//                                due = new DeviceUnitEntity();
+//                                due.setDeviceEditionId(deviceEntity.getDeviceEditionId());
+//                                List<DeviceUnitEntity> deviceUnitEntities3 = baseDao.queryByCondition(due, DeviceUnitEntity.class, false);
+//                                map.addAll(deviceUnitEntities1);
+//                                map.addAll(deviceUnitEntities2);
+//                                map.addAll(deviceUnitEntities3);
+//                                for (DeviceUnitEntity deviceUnitEntity : map) {
+//                                    r.put(deviceUnitEntity.getDataName(), deviceUnitEntity.getMove());
+//                                }
+//                            }
+//                        }
 
                         JSONObject jso = new JSONObject();
                         JSONObject jsonObject1 = JSONObject.parseObject(arg1.toString());
