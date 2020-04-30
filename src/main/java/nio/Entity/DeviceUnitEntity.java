@@ -53,7 +53,6 @@ public class DeviceUnitEntity {
     }
 
     @Column("move")
-
     private Integer move;
 
     public Integer getId() {

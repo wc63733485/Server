@@ -15,5 +15,6 @@ public class MQ4IoTProducerDemo {
         System.out.println("client start...");
         MyMqtt myMqtt = new MyMqtt("300219070310");
         myMqtt.subscribe(myTopics, myQos);
+//        myMqtt.sendMessage("Topic/flexem/fbox/300219070310/system/MDataPubCycle","60");
     }
 }
