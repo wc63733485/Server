@@ -151,7 +151,7 @@ public class MyMqtt {
                         if (new String(arg1.getPayload()).equals("")||arg1==null){
                             return;
                         }
-
+                        System.out.println("out"+new String(arg1.getPayload()));
                         Document jso = new Document();
                         JSONObject jsonObjectRec = JSONObject.parseObject(new String(arg1.getPayload()));
 
