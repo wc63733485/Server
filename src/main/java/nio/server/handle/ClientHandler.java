@@ -5,7 +5,6 @@ import nio.Entity.DeviceEntity;
 import nio.Entity.DeviceUnitEntity;
 import nio.clink.utils.CloseUtils;
 import com.alibaba.fastjson.JSONObject;
-import com.sws.base.dao.MongoDao;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -17,7 +16,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ClientHandler {
-    private final MongoDao md = new MongoDao();
 
     private final SocketChannel socketChannel;
     private final ClientReadHandler readHandler;

@@ -36,8 +36,8 @@ public class MqttClientUtil {
     }
 
     public static void createClient() {
-        System.out.println("mqtt createClient, " + broker);
-        String clientId = "mqttserver" + String.valueOf(System.currentTimeMillis());
+        System.out.println("MQTT createClient:" + broker);
+        String clientId = "MQTTServer" + String.valueOf(System.currentTimeMillis());
         System.out.println("mqtt sub_clientId="+clientId+",pub_clientId="+clientId+"-publish");
         try {
             //subscribe client
@@ -65,11 +65,6 @@ public class MqttClientUtil {
             subscribeReconnect();
             publishReconnect();
         } catch (MqttException me) {
-            System.out.println("reason " + me.getReasonCode());
-            System.out.println("msg " + me.getMessage());
-            System.out.println("loc " + me.getLocalizedMessage());
-            System.out.println("cause " + me.getCause());
-            System.out.println("excep " + me);
             me.printStackTrace();
         }
 
