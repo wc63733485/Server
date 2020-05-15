@@ -27,13 +27,6 @@ public class DeviceEntity {
     @IgnoreColumn
     private String onlineStatus;
 
-    /** 设备型号. */
-    @Column("device_model_id")
-    private Integer deviceModelId;
-
-    /** 设备版本. */
-    @Column("device_edition_id")
-    private Integer deviceEditionId;
 
     /** 设备尺寸. */
     @Column("overall_dimension")
@@ -89,22 +82,6 @@ public class DeviceEntity {
 
     public void setOnlineStatus(String onlineStatus) {
         this.onlineStatus = onlineStatus;
-    }
-
-    public Integer getDeviceModelId() {
-        return deviceModelId;
-    }
-
-    public void setDeviceModelId(Integer deviceModelId) {
-        this.deviceModelId = deviceModelId;
-    }
-
-    public Integer getDeviceEditionId() {
-        return deviceEditionId;
-    }
-
-    public void setDeviceEditionId(Integer deviceEditionId) {
-        this.deviceEditionId = deviceEditionId;
     }
 
     public String getOverallDimension() {

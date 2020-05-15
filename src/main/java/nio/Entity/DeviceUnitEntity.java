@@ -29,14 +29,8 @@ public class DeviceUnitEntity {
     @Column("warn_number")
     private String warnNumber;
 
-    @Column("device_model_id")
-    private Integer deviceModelId;
-
     @Column("device_type_id")
     private Integer deviceTypeId;
-
-    @Column("device_edition_id")
-    private Integer deviceEditionId;
 
     @Column("data_name")
     private String dataName;
@@ -111,28 +105,12 @@ public class DeviceUnitEntity {
         this.warnNumber = warnNumber;
     }
 
-    public Integer getDeviceModelId() {
-        return deviceModelId;
-    }
-
-    public void setDeviceModelId(Integer deviceModelId) {
-        this.deviceModelId = deviceModelId;
-    }
-
     public Integer getDeviceTypeId() {
         return deviceTypeId;
     }
 
     public void setDeviceTypeId(Integer deviceTypeId) {
         this.deviceTypeId = deviceTypeId;
-    }
-
-    public Integer getDeviceEditionId() {
-        return deviceEditionId;
-    }
-
-    public void setDeviceEditionId(Integer deviceEditionId) {
-        this.deviceEditionId = deviceEditionId;
     }
 
     public String getDataName() {
