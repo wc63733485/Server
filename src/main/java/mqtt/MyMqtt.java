@@ -1,21 +1,17 @@
-package mqtt.lmq.example.demo;
+package mqtt;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.sws.base.annotations.Entity;
 import com.sws.base.util.JavaBeanUtil;
 import com.sws.base.util.SqlUtil;
-import com.sws.base.util.TimeUtil;
 import nio.Entity.DeviceEntity;
 import nio.Entity.DeviceUnitEntity;
 import org.bson.Document;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -25,13 +21,16 @@ import java.util.*;
 
 public class MyMqtt {
 
+    private static String topic;
+    private static int myQo = 0;
+
     private static final SqlUtil sqlUtil = new SqlUtil();
 
     private String username = "root";
 
     private String password = "ASDzxc1993";
 
-    String ret = "";
+    String id;
     private static List<DeviceUnitEntity> DeviceUnitEntitylist;
     private static HashMap<String, Map> map = new HashMap<String, Map>();
     private static HashMap<String, Integer> r;
@@ -41,17 +40,16 @@ public class MyMqtt {
     private String userName = "wxc";
     private String passWord = "123123";
     private MqttClient client;
-    private static String[] topics = {"Topic/flexem/fbox/300219070310/system/MonitorData", "Topic/flexem/fbox/300220030307/system/MonitorData"};
-    private static int[] myQos = {0, 0};
     private MqttTopic mqttTopic;
     private MqttMessage message;
 
-    public MyMqtt(String id, List<String> codelist) {
-        this(id, codelist, null, false);
+    public MyMqtt(String id) {
+        this(id, null, false);
+        this.id = id;
     }
 
-    public MyMqtt(String id, List<String> codelist, MqttCallback callback, boolean cleanSession) {
-
+    public MyMqtt(String id, MqttCallback callback, boolean cleanSession) {
+        System.out.println(id + "is run");
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
         ds.setUrl("jdbc:mysql://39.96.74.32:25412/hssws?allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false");
@@ -73,15 +71,13 @@ public class MyMqtt {
         MongoClient mongoClient = new MongoClient(new ServerAddress("39.96.74.32:27837"), mongoCredential, build);
         MongoDatabase device = mongoClient.getDatabase("device");
 
-
-        //id应该保持唯一性
         try {
             client = new MqttClient(host, id, new MemoryPersistence());
         } catch (MqttException e) {
             e.printStackTrace();
         }
         MqttConnectOptions options = new MqttConnectOptions();
-        options.setCleanSession(cleanSession);
+        options.setCleanSession(true);
         options.setUserName(userName);
         options.setPassword(passWord.toCharArray());
         options.setConnectionTimeout(10);
@@ -93,18 +89,16 @@ public class MyMqtt {
                 public void connectionLost(Throwable arg0) {
 
                     System.out.println("recontent" + arg0);
+                    topic = "Topic/flexem/fbox/" + id + "/system/MonitorData";
+                    System.out.println("client start...");
+                    new MyMqtt(id);
+
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
-                    List<String> codelist = jdbcTemplate.queryForList("select distinct IOT_code from device", String.class);
-
-
-                    System.out.println("client start...");
-                    MyMqtt myMqtt = new MyMqtt("gateWay", codelist);
-                    myMqtt.subscribe(topics, myQos);
                 }
 
                 @Override
@@ -144,10 +138,10 @@ public class MyMqtt {
                         }
                     }
 
-                    if (new String(arg1.getPayload()).equals("") || arg1 == null ||new String(arg1.getPayload()).contains("error")) {
+                    if (new String(arg1.getPayload()).equals("") || arg1 == null || new String(arg1.getPayload()).contains("error")) {
                         return;
                     }
-                    System.out.println("out" + new String(arg1.getPayload()));
+//                    System.out.println("out" + new String(arg1.getPayload()));
                     Document jso = new Document();
                     JSONObject jsonObjectRec = JSONObject.parseObject(new String(arg1.getPayload()));
 
@@ -204,23 +198,15 @@ public class MyMqtt {
             client.setCallback(callback);
         }
         try {
+            topic = "Topic/flexem/fbox/" + id + "/system/MonitorData";
             client.connect(options);
+            client.subscribe(topic, myQo);
         } catch (MqttException e) {
             e.printStackTrace();
         }
 
     }
 
-
-    public void subscribe(String[] topicFilters, int[] qos) {
-        try {
-            client.subscribe(topicFilters, qos);
-        } catch (MqttException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }// 订阅主题
-
-    }
 
     public void sendMessage(String topic, String msg) {
         try {
