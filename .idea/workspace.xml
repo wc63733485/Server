@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Server:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3466d4a4-7d4b-4d52-8d5d-815f94295935" name="Default Changelist" comment="5-18 pom打包更新">
+      <change afterPath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceWarnEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/nio/Entity/WarnEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mqtt/MqttStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mqtt/MqttStart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/mqtt/MyMqtt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mqtt/MyMqtt.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceUnitEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceUnitEntity.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Enum" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1asKuiLIc2v2i27uxQxhmplCF9t" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="nio.Entity" />
+      <recent name="mqtt.lmq.example.demo" />
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MqttStart">
+    <configuration name="All" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="mqtt.lmq.example.demo.All" />
+      <module name="Server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="mqtt.lmq.example.demo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MQ4IoTProducerDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="mqtt.lmq.example.demo.MQ4IoTProducerDemo" />
+      <module name="Server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="mqtt.lmq.example.demo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MqttStart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="mqtt.MqttStart" />
+      <module name="Server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="mqtt.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MqttStart" />
+        <item itemvalue="Application.MQ4IoTProducerDemo" />
+        <item itemvalue="Application.All" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3466d4a4-7d4b-4d52-8d5d-815f94295935" name="Default Changelist" comment="" />
+      <created>1587519085853</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587519085853</updated>
+      <workItem from="1587519087965" duration="10447000" />
+      <workItem from="1587539698254" duration="1970000" />
+      <workItem from="1587603133412" duration="8587000" />
+      <workItem from="1587688724439" duration="2154000" />
+      <workItem from="1587691344521" duration="10000" />
+      <workItem from="1587691371571" duration="465000" />
+      <workItem from="1587691859103" duration="471000" />
+      <workItem from="1587692341893" duration="3238000" />
+      <workItem from="1587865325487" duration="11104000" />
+      <workItem from="1587949962722" duration="9027000" />
+      <workItem from="1588033397953" duration="6235000" />
+      <workItem from="1588118394592" duration="19112000" />
+      <workItem from="1588207254891" duration="4380000" />
+      <workItem from="1588725229888" duration="1934000" />
+      <workItem from="1588749503891" duration="3343000" />
+      <workItem from="1588813929386" duration="12588000" />
+      <workItem from="1588930093579" duration="86000" />
+      <workItem from="1589017379525" duration="56000" />
+      <workItem from="1589155989680" duration="24003000" />
+      <workItem from="1589330021397" duration="7637000" />
+      <workItem from="1589439345832" duration="2902000" />
+      <workItem from="1589504454092" duration="5658000" />
+      <workItem from="1589761584796" duration="20197000" />
+      <workItem from="1589851522127" duration="9911000" />
+      <workItem from="1590032121993" duration="13867000" />
+      <workItem from="1590110384474" duration="822000" />
+      <workItem from="1590111301930" duration="12215000" />
+    </task>
+    <task id="LOCAL-00001" summary="430">
+      <created>1588233149140</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1588233149140</updated>
+    </task>
+    <task id="LOCAL-00002" summary="5-8">
+      <created>1588930124225</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1588930124225</updated>
+    </task>
+    <task id="LOCAL-00003" summary="5-15">
+      <created>1589537645660</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1589537645660</updated>
+    </task>
+    <task id="LOCAL-00004" summary="5-18 pom打包更新">
+      <created>1589801670301</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1589801670301</updated>
+    </task>
+    <task id="LOCAL-00005" summary="5-18 pom打包更新">
+      <created>1589801719874</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1589801719874</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="430" />
+    <MESSAGE value="5-8" />
+    <MESSAGE value="5-15" />
+    <MESSAGE value="5-18 pom打包更新" />
+    <option name="LAST_COMMIT_MESSAGE" value="5-18 pom打包更新" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="440" y="94" key="#Project_Structure" timestamp="1589798709952">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1589798709952" />
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588121598747">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588121598747" />
+    <state x="765" y="204" key="#com.intellij.ide.util.MemberChooser" timestamp="1590115124279">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="204" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1590115124279" />
+    <state x="690" y="309" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1589798824198">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="309" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589798824198" />
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1589166422258">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589166422258" />
+    <state x="690" y="274" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog" timestamp="1589796421789">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="274" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589796421789" />
+    <state x="1065" y="278" key="FileChooserDialogImpl" timestamp="1589798811203">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1065" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589798811203" />
+    <state width="1877" height="267" key="GridCell.Tab.0.bottom" timestamp="1590130886522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590130886522" />
+    <state width="1877" height="267" key="GridCell.Tab.0.center" timestamp="1590130886521">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590130886521" />
+    <state width="1877" height="267" key="GridCell.Tab.0.left" timestamp="1590130886521">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590130886521" />
+    <state width="1877" height="267" key="GridCell.Tab.0.right" timestamp="1590130886522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590130886522" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1590116659214">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590116659214" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1590116659214">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590116659214" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1590116659214">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590116659214" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1590116659214">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590116659214" />
+    <state x="748" y="221" key="RollbackChangesDialog" timestamp="1589790218013">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="748" y="221" key="RollbackChangesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589790218013" />
+    <state x="440" y="94" key="SettingsEditor" timestamp="1589801039201">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1589801039201" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1589801727861">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589801727861" />
+    <state x="789" y="378" key="classpath-attribute-editor" timestamp="1589798838522">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="789" y="378" key="classpath-attribute-editor/0.0.1920.1040@0.0.1920.1040" timestamp="1589798838522" />
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1590054734266">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590054734266" />
+    <state x="690" y="279" key="extract.method.dialog" timestamp="1589157997038">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="279" key="extract.method.dialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589157997038" />
+    <state x="662" y="254" width="596" height="532" key="find.popup" timestamp="1589166237887">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="662" y="254" width="596" height="532" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589166237887" />
+    <state x="666" y="307" key="git4idea.merge.GitPullDialog" timestamp="1588725235161">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="666" y="307" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588725235161" />
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup" timestamp="1589801008202">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589801008202" />
+    <state x="640" y="203" key="spring file set editor" timestamp="1587526664295">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="640" y="203" key="spring file set editor/0.0.1920.1040@0.0.1920.1040" timestamp="1587526664295" />
+    <state x="790" y="311" key="svn.repositoryBrowser" timestamp="1587519125712">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="790" y="311" key="svn.repositoryBrowser/0.0.1920.1040@0.0.1920.1040" timestamp="1587519125712" />
+  </component>
+</project>
