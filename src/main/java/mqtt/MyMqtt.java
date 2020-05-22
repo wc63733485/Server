@@ -5,18 +5,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.sws.base.util.JavaBeanUtil;
-import com.sws.base.util.SqlUtil;
-import nio.Entity.DeviceEntity;
-import nio.Entity.DeviceUnitEntity;
+import nio.Entity.DeviceWarnEntity;
 import org.bson.Document;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class MyMqtt {
@@ -24,24 +20,19 @@ public class MyMqtt {
     private static String topic;
     private static int myQo = 0;
 
-    private static final SqlUtil sqlUtil = new SqlUtil();
-
     private String username = "root";
 
     private String password = "ASDzxc1993";
-
-    String id;
-    private static List<DeviceUnitEntity> DeviceUnitEntitylist;
-    private static HashMap<String, Map> map = new HashMap<String, Map>();
-    private static HashMap<String, Integer> r;
+    private Map move = new HashMap<String, Integer>();
+    private Map warnMap = new HashMap<String, Long>();
+    private Map warn = new HashMap<String, DeviceWarnEntity>();
+    String id = null;
     String time = "";
-    JSONArray array = null;
+    JSONArray array;
     private String host = "tcp://39.107.221.228:1883";
     private String userName = "wxc";
     private String passWord = "123123";
     private MqttClient client;
-    private MqttTopic mqttTopic;
-    private MqttMessage message;
 
     public MyMqtt(String id) {
         this(id, null, false);
@@ -50,14 +41,6 @@ public class MyMqtt {
 
     public MyMqtt(String id, MqttCallback callback, boolean cleanSession) {
         System.out.println(id + "is run");
-        DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://39.96.74.32:25412/hssws?allowPublicKeyRetrieval=true&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false");
-        ds.setUsername("root");
-        ds.setPassword("ASDzxc1993.");
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
-        jdbcTemplate.setDataSource(ds);
 
         MongoClientOptions.Builder moptions = new MongoClientOptions.Builder();
         moptions.connectionsPerHost(200);// 连接池设置为300个连接,默认为100
@@ -70,6 +53,7 @@ public class MyMqtt {
         MongoCredential mongoCredential = MongoCredential.createCredential(username, "admin", password.toCharArray());
         MongoClient mongoClient = new MongoClient(new ServerAddress("39.96.74.32:27837"), mongoCredential, build);
         MongoDatabase device = mongoClient.getDatabase("device");
+        MongoDatabase warnLog = mongoClient.getDatabase("warnLog");
 
         try {
             client = new MqttClient(host, id, new MemoryPersistence());
@@ -77,11 +61,12 @@ public class MyMqtt {
             e.printStackTrace();
         }
         MqttConnectOptions options = new MqttConnectOptions();
-        options.setCleanSession(true);
+        options.setCleanSession(false);
         options.setUserName(userName);
         options.setPassword(passWord.toCharArray());
         options.setConnectionTimeout(10);
         options.setKeepAliveInterval(20);
+
         if (callback == null) {
             client.setCallback(new MqttCallback() {
 
@@ -92,7 +77,7 @@ public class MyMqtt {
                     topic = "Topic/flexem/fbox/" + id + "/system/MonitorData";
                     System.out.println("client start...");
                     new MyMqtt(id);
-
+                    arg0.printStackTrace();
                     try {
                         Thread.sleep(10000);
                     } catch (InterruptedException e) {
@@ -111,38 +96,19 @@ public class MyMqtt {
                 public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
 
                     String id = arg0.split("/")[3];
-                    if (!map.containsKey(id)) {
-                        System.out.println(id + "数据转换加载");
-                        DeviceUnitEntitylist = new ArrayList<DeviceUnitEntity>();
-                        r = new HashMap();
-                        DeviceUnitEntity due;
-                        DeviceEntity de = new DeviceEntity();
-                        de.setIOTCode(id);
-
-                        String sql = sqlUtil.BaseQueryNoPage(de, false, "id", 1);
-                        System.out.println(sql);
-                        RowMapper<DeviceEntity> rm = BeanPropertyRowMapper.newInstance(DeviceEntity.class);
-                        DeviceEntity deviceEntity = jdbcTemplate.queryForObject(sql, rm);
-
-                        if (deviceEntity != null) {
-
-                            //以下代码代表设备类型字段会覆盖掉型号和版本的数据字段
-                            due = new DeviceUnitEntity();
-                            due.setDeviceTypeId(deviceEntity.getDeviceTypeId());
-                            List<DeviceUnitEntity> deviceUnitEntities = this.queryByCondition(due, DeviceUnitEntity.class, false, "id", 1);
-                            DeviceUnitEntitylist.addAll(deviceUnitEntities);
-                            for (DeviceUnitEntity deviceUnitEntity : DeviceUnitEntitylist) {
-                                r.put(deviceUnitEntity.getDataName(), deviceUnitEntity.getMove());
-                            }
-                            map.put(id, r);
-                        }
+                    if (move.size() == 0) {
+                        move = MqttStart.deviceInfo.get(id + MqttStart.MOVE);
+                    }
+                    if (warn.size() == 0) {
+                        warn = MqttStart.deviceInfo.get(id + MqttStart.WARN);
                     }
 
                     if (new String(arg1.getPayload()).equals("") || arg1 == null || new String(arg1.getPayload()).contains("error")) {
                         return;
                     }
-//                    System.out.println("out" + new String(arg1.getPayload()));
                     Document jso = new Document();
+                    Document jso1 = new Document();
+
                     JSONObject jsonObjectRec = JSONObject.parseObject(new String(arg1.getPayload()));
 
                     String dataTime = jsonObjectRec.getString("time");
@@ -150,48 +116,63 @@ public class MyMqtt {
                     jso.put("date", dataTime);
 
                     JSONArray data = jsonObjectRec.getJSONArray("Data");
-                    if (data.size() < 50) {
-                        String time1 = jsonObjectRec.getString("time");
+
+                    if (data.size()==50){
                         MyMqtt.this.time = dataTime;
-                        for (Object object : data) {
-                            JSONObject jsonObject = JSONObject.parseObject(object.toString());
-                            String name = jsonObject.getString("name");
-                            if (r.containsKey(name)) {
-                                jso.put(name, jsonObject.getDouble("value") / Math.pow(10, r.get(name)));
-                            }
-                        }
-                        MongoCollection<Document> collection = device.getCollection(id);
-                        collection.insertOne(jso);
-                    } else {
-                        if (MyMqtt.this.time.equals(dataTime)) {
+                        array = data;
+                    }else {
+                        if (MyMqtt.this.time.equals(dataTime)&&null!=array) {
                             array.addAll(data);
                             MyMqtt.this.time = dataTime;
                             for (Object object : array) {
                                 JSONObject jsonObject = JSONObject.parseObject(object.toString());
                                 String name = jsonObject.getString("name");
-                                r = (HashMap<String, Integer>) map.get(id);
-                                if (r.containsKey(name)) {
-                                    jso.put(name, jsonObject.getDouble("value") / Math.pow(10, r.get(name)));
+                                if (move.containsKey(name)) {
+                                    jso.put(name, jsonObject.getDouble("value") / Math.pow(10, Double.valueOf(move.get(name).toString())));
+                                } else {
+                                    jso.put(name, jsonObject.getDouble("value"));
                                 }
-                                jso.put(name, jsonObject.getDouble("value"));
-                            }
-                            MongoCollection<Document> collection = device.getCollection(id);
-                            collection.insertOne(jso);
-                        } else {
-                            MyMqtt.this.time = dataTime;
-                            array = data;
-                        }
-                    }
-                }
 
-                public <T> List<T> queryByCondition(Object obj, Class<T> clazz, boolean vague, String sort, int i) {
-                    String sql = sqlUtil.BaseQueryNoPage(obj, vague, sort, i);
-                    List<T> entities = new ArrayList<>();
-                    for (Map<String, Object> map : jdbcTemplate.queryForList(sql)) {
-                        T t = (T) JavaBeanUtil.mapToObject(map, clazz);
-                        entities.add(t);
+                                if (warn.containsKey(name)) {
+                                    DeviceWarnEntity deviceWarnEntity = (DeviceWarnEntity) warn.get(name);
+                                    String warnCode = deviceWarnEntity.getIOTCode() + deviceWarnEntity.getDataName();
+                                    if (warnMap.containsKey(warnCode)) {
+                                        if (Calendar.getInstance().getTime().getTime() - (long) warnMap.get(warnCode) > 900000) {
+                                            warnSort(deviceWarnEntity,jso,name,jso1, warnCode,warnLog);
+                                        }
+                                    }else {
+                                        warnSort(deviceWarnEntity,jso,name,jso1, warnCode,warnLog);
+                                    }
+                                }
+
+                            }
+                        }else{
+                            MyMqtt.this.time = dataTime;
+                            for (Object object : data) {
+                                JSONObject jsonObject = JSONObject.parseObject(object.toString());
+                                String name = jsonObject.getString("name");
+                                if (move.containsKey(name)) {
+                                    jso.put(name, jsonObject.getDouble("value") / Math.pow(10, (Integer) move.get(name)));
+                                } else {
+                                    jso.put(name, jsonObject.getDouble("value"));
+                                }
+
+                                if (warn.containsKey(name)) {
+                                    DeviceWarnEntity deviceWarnEntity = (DeviceWarnEntity) warn.get(name);
+                                    String warnCode = deviceWarnEntity.getIOTCode() + deviceWarnEntity.getDataName();
+                                    if (warnMap.containsKey(warnCode)) {
+                                        if (Calendar.getInstance().getTime().getTime() - (long) warnMap.get(warnCode) > 900000) {
+                                            warnSort(deviceWarnEntity,jso,name,jso1, warnCode,warnLog);
+                                        }
+                                    }else {
+                                        warnSort(deviceWarnEntity,jso,name,jso1, warnCode,warnLog);
+                                    }
+                                }
+                            }
+                        }
+                        device.getCollection(id).insertOne(jso);
+
                     }
-                    return entities;
                 }
             });
         } else {
@@ -204,9 +185,44 @@ public class MyMqtt {
         } catch (MqttException e) {
             e.printStackTrace();
         }
-
     }
 
+    public void warnSort(DeviceWarnEntity deviceWarnEntity,Document jso,String name, Document jso1,String warnCode,MongoDatabase warnLog) {
+        if (deviceWarnEntity.getSign().equals("1")) {
+            if (jso.getDouble(name) - deviceWarnEntity.getNumber()>0) {
+                warnHandle(deviceWarnEntity,jso.get(name),jso1, warnCode,warnLog);
+            }
+        }else if (deviceWarnEntity.getSign().equals("2")) {
+            if (jso.getDouble(name)-deviceWarnEntity.getNumber()<0) {
+                warnHandle(deviceWarnEntity,jso.get(name),jso1, warnCode,warnLog);
+            }
+        }else if (deviceWarnEntity.getSign().equals("3")) {
+            if (jso.getDouble(name)-deviceWarnEntity.getNumber()==0) {
+                warnHandle(deviceWarnEntity,jso.get(name),jso1, warnCode,warnLog);
+            }
+        }
+    }
+
+    public void warnHandle(DeviceWarnEntity deviceWarnEntity,Object object, Document jso1,String warnCode,MongoDatabase warnLog) {
+        ZonedDateTime today = ZonedDateTime.now();
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        jso1.put("level", deviceWarnEntity.getLevel());
+        jso1.put("warnNumber", deviceWarnEntity.getNumber());
+        jso1.put("remake", deviceWarnEntity.getRemake());
+        jso1.put("source", deviceWarnEntity.getSource());
+        jso1.put("number", object);
+        jso1.put("Date", today.format(formatters));
+        jso1.put("sign", deviceWarnEntity.getSign());
+        jso1.put("IOTCode", deviceWarnEntity.getIOTCode());
+        jso1.put("dataName", deviceWarnEntity.getDataName());
+        jso1.put("time", Calendar.getInstance().getTime().getTime());
+        jso1.put("status", 0);
+        warnMap.put(warnCode, Calendar.getInstance().getTime().getTime());
+        warnLog.getCollection("warnLog").insertOne(jso1);
+    }
+
+    private MqttTopic mqttTopic;
+    private MqttMessage message;
 
     public void sendMessage(String topic, String msg) {
         try {

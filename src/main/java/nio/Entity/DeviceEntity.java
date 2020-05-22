@@ -23,11 +23,6 @@ public class DeviceEntity {
     @Column("device_type_id")
     private Integer deviceTypeId;
 
-    /** 在线状况. */
-    @IgnoreColumn
-    private String onlineStatus;
-
-
     /** 设备尺寸. */
     @Column("overall_dimension")
     private String overallDimension;
@@ -76,13 +71,6 @@ public class DeviceEntity {
         this.deviceTypeId = deviceTypeId;
     }
 
-    public String getOnlineStatus() {
-        return onlineStatus;
-    }
-
-    public void setOnlineStatus(String onlineStatus) {
-        this.onlineStatus = onlineStatus;
-    }
 
     public String getOverallDimension() {
         return overallDimension;

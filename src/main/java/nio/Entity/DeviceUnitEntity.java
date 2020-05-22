@@ -23,11 +23,19 @@ public class DeviceUnitEntity {
     @Column("is_number_data")
     private String isNumberData;
 
+    @Column("is_alarm_data")
+    private String isAlarmData;
+
+    public String getIsAlarmData() {
+        return isAlarmData;
+    }
+
+    public void setIsAlarmData(String isAlarmData) {
+        this.isAlarmData = isAlarmData;
+    }
+
     @Column("reference_range")
     private String referenceRange;
-
-    @Column("warn_number")
-    private String warnNumber;
 
     @Column("device_type_id")
     private Integer deviceTypeId;
@@ -95,14 +103,6 @@ public class DeviceUnitEntity {
 
     public void setReferenceRange(String referenceRange) {
         this.referenceRange = referenceRange;
-    }
-
-    public String getWarnNumber() {
-        return warnNumber;
-    }
-
-    public void setWarnNumber(String warnNumber) {
-        this.warnNumber = warnNumber;
     }
 
     public Integer getDeviceTypeId() {
