@@ -3,7 +3,6 @@ package mqtt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.*;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import nio.Entity.DeviceWarnEntity;
 import org.bson.Document;
@@ -44,9 +43,9 @@ public class MyMqtt {
 
         MongoClientOptions.Builder moptions = new MongoClientOptions.Builder();
         moptions.connectionsPerHost(200);// 连接池设置为300个连接,默认为100
-        moptions.connectTimeout(30000);// 连接超时，推荐>3000毫秒
-        moptions.maxWaitTime(50000); //
-        moptions.socketTimeout(50000);// 套接字超时时间，0无限制
+        moptions.connectTimeout(60000);// 连接超时，推荐>3000毫秒
+        moptions.maxWaitTime(60000); //
+        moptions.socketTimeout(60000);// 套接字超时时间，0无限制
         moptions.threadsAllowedToBlockForConnectionMultiplier(5000);// 线程队列数，如果连接线程排满了队列就会抛出“Out of semaphores to get db”错误。
         moptions.writeConcern(WriteConcern.SAFE);//
         MongoClientOptions build = moptions.build();
@@ -61,7 +60,7 @@ public class MyMqtt {
             e.printStackTrace();
         }
         MqttConnectOptions options = new MqttConnectOptions();
-        options.setCleanSession(false);
+        options.setCleanSession(true);
         options.setUserName(userName);
         options.setPassword(passWord.toCharArray());
         options.setConnectionTimeout(10);
@@ -73,7 +72,7 @@ public class MyMqtt {
                 @Override
                 public void connectionLost(Throwable arg0) {
 
-                    System.out.println("recontent" + arg0);
+                    System.out.println(Calendar.getInstance().getTime().toLocaleString()+"recontent：" + arg0);
                     topic = "Topic/flexem/fbox/" + id + "/system/MonitorData";
                     System.out.println("client start...");
                     new MyMqtt(id);
@@ -137,7 +136,7 @@ public class MyMqtt {
                                     DeviceWarnEntity deviceWarnEntity = (DeviceWarnEntity) warn.get(name);
                                     String warnCode = deviceWarnEntity.getIOTCode() + deviceWarnEntity.getDataName();
                                     if (warnMap.containsKey(warnCode)) {
-                                        if (Calendar.getInstance().getTime().getTime() - (long) warnMap.get(warnCode) > 900000) {
+                                        if (Calendar.getInstance().getTime().getTime() - (long) warnMap.get(warnCode) > deviceWarnEntity.getWarnTimeInterval()) {
                                             warnSort(deviceWarnEntity,jso,name,jso1, warnCode,warnLog);
                                         }
                                     }else {
@@ -161,7 +160,7 @@ public class MyMqtt {
                                     DeviceWarnEntity deviceWarnEntity = (DeviceWarnEntity) warn.get(name);
                                     String warnCode = deviceWarnEntity.getIOTCode() + deviceWarnEntity.getDataName();
                                     if (warnMap.containsKey(warnCode)) {
-                                        if (Calendar.getInstance().getTime().getTime() - (long) warnMap.get(warnCode) > 900000) {
+                                        if (Calendar.getInstance().getTime().getTime() - (long) warnMap.get(warnCode) > deviceWarnEntity.getWarnTimeInterval()) {
                                             warnSort(deviceWarnEntity,jso,name,jso1, warnCode,warnLog);
                                         }
                                     }else {

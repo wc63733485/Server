@@ -19,6 +19,9 @@ public class DeviceWarnEntity {
 
     private String level;
 
+    @Column("warn_time_interval")
+    private Double warnTimeInterval;
+
     private String sign;
 
     public String getSource() {
@@ -91,5 +94,12 @@ public class DeviceWarnEntity {
         this.number = number;
     }
 
+    public Double getWarnTimeInterval() {
+        return warnTimeInterval;
+    }
+
+    public void setWarnTimeInterval(Double warnTimeInterval) {
+        this.warnTimeInterval = warnTimeInterval;
+    }
 
 }

@@ -37,8 +37,6 @@ public class DeviceUnitEntity {
     @Column("reference_range")
     private String referenceRange;
 
-    @Column("device_type_id")
-    private Integer deviceTypeId;
 
     @Column("data_name")
     private String dataName;
@@ -103,14 +101,6 @@ public class DeviceUnitEntity {
 
     public void setReferenceRange(String referenceRange) {
         this.referenceRange = referenceRange;
-    }
-
-    public Integer getDeviceTypeId() {
-        return deviceTypeId;
-    }
-
-    public void setDeviceTypeId(Integer deviceTypeId) {
-        this.deviceTypeId = deviceTypeId;
     }
 
     public String getDataName() {

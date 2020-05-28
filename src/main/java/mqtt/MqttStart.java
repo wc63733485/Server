@@ -3,6 +3,7 @@ package mqtt;
 import com.sws.base.util.JavaBeanUtil;
 import com.sws.base.util.SqlUtil;
 import nio.Entity.DeviceEntity;
+import nio.Entity.DeviceTypeBindEntity;
 import nio.Entity.DeviceUnitEntity;
 import nio.Entity.DeviceWarnEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -41,7 +42,7 @@ public class MqttStart {
             DeviceEntity t = JavaBeanUtil.mapToObject(map, DeviceEntity.class);
 //            if (t.getIOTCode().equals("300220030307")) {
 
-                deviceEntity.add(t);
+            deviceEntity.add(t);
 //            }
         }
 
@@ -49,38 +50,35 @@ public class MqttStart {
         HashMap<String, Integer> move;
         HashMap<String, DeviceWarnEntity> warn;
         DeviceUnitEntity due;
+        DeviceTypeBindEntity deviceTypeBindEntity;
         DeviceWarnEntity dwe;
         for (DeviceEntity device : deviceEntity) {
             move = new HashMap<>();
             warn = new HashMap<>();
-            if ("" != device.getIOTCode() && null != device.getIOTCode()) {
+            if (!device.getIOTCode().equals("") && null != device.getIOTCode()) {
                 String iotCode = device.getIOTCode();
                 if (null != device.getDeviceTypeId()) {
 
-                    due = new DeviceUnitEntity();
-                    due.setDeviceTypeId(device.getDeviceTypeId());
-                    List<DeviceUnitEntity> moveList = new ArrayList<>();
-                    for (Map<String, Object> map : jdbcTemplate.queryForList(sqlUtil.BaseQueryNoPage(due,false, "id", 1))) {
-                        DeviceUnitEntity t = JavaBeanUtil.mapToObject(map, DeviceUnitEntity.class);
-                        moveList.add(t);
-                    }
-
-                    for (DeviceUnitEntity deviceUnitEntity : moveList) {
-                        if (null != deviceUnitEntity.getMove() && 0 != deviceUnitEntity.getMove()) {
-                            move.put(deviceUnitEntity.getDataName(), deviceUnitEntity.getMove());
+                    deviceTypeBindEntity = new DeviceTypeBindEntity();
+                    deviceTypeBindEntity.setDeviceTypeId(device.getDeviceTypeId());
+                    System.out.println(sqlUtil.BaseQueryNoPage(deviceTypeBindEntity, false, "id", 1));
+                    List<Map<String, Object>> id = jdbcTemplate.queryForList(sqlUtil.BaseQueryNoPage(deviceTypeBindEntity, false, "id", 1));
+                    for (Map<String, Object> map : id){
+                        DeviceTypeBindEntity t = JavaBeanUtil.mapToObject(map, DeviceTypeBindEntity.class);
+                        Integer deviceUnitId = t.getDeviceUnitId();
+                        due = JavaBeanUtil.mapToObject(jdbcTemplate.queryForMap(sqlUtil.BaseIdQuery("device_unit", deviceUnitId)), DeviceUnitEntity.class);
+                        if (null != due.getMove() && 0 != due.getMove()) {
+                            move.put(due.getDataName(), due.getMove());
                         }
                     }
 
-                    due = new DeviceUnitEntity();
-                    due.setDeviceTypeId(device.getDeviceTypeId());
-                    due.setIsAlarmData("1");
-                    List<DeviceUnitEntity> warnList = new ArrayList<>();
-                    for (Map<String, Object> map : jdbcTemplate.queryForList(sqlUtil.BaseQueryNoPage(due,false, "id", 1))) {
-                        DeviceUnitEntity t = JavaBeanUtil.mapToObject(map, DeviceUnitEntity.class);
-                        warnList.add(t);
-                    }
 
-                    for (DeviceUnitEntity deviceUnitEntity : warnList) {
+
+                    due = new DeviceUnitEntity();
+                    due.setIsAlarmData("1");
+
+                    for (Map<String, Object> map : jdbcTemplate.queryForList(sqlUtil.BaseQueryNoPage(due, false, "id", 1))) {
+                        DeviceUnitEntity deviceUnitEntity = JavaBeanUtil.mapToObject(map, DeviceUnitEntity.class);
                         DeviceWarnEntity t = new DeviceWarnEntity();
                         t.setIOTCode(iotCode);
                         t.setDataName(deviceUnitEntity.getDataName());
@@ -89,25 +87,23 @@ public class MqttStart {
                         t.setRemake(deviceUnitEntity.getName());
                         t.setSign("3");
                         t.setSource("device");
+                        t.setWarnTimeInterval(900000.0);
                         warn.put(deviceUnitEntity.getDataName(), t);
                     }
 
+
                     dwe = new DeviceWarnEntity();
                     dwe.setIOTCode(iotCode);
-                    List<DeviceWarnEntity> warnList1 = new ArrayList<>();
-                    for (Map<String, Object> map : jdbcTemplate.queryForList(sqlUtil.BaseQueryNoPage(dwe,false, "id", 1))) {
+                    for (Map<String, Object> map : jdbcTemplate.queryForList(sqlUtil.BaseQueryNoPage(dwe, false, "id", 1))) {
                         DeviceWarnEntity t = JavaBeanUtil.mapToObject(map, DeviceWarnEntity.class);
-                        warnList1.add(t);
+                        warn.put(t.getDataName(), t);
                     }
 
-                    for (DeviceWarnEntity deviceWarnEntity : warnList1) {
-                        warn.put(deviceWarnEntity.getDataName(), deviceWarnEntity);
-                    }
 
                     deviceInfo.put(iotCode + MOVE, move);
                     deviceInfo.put(iotCode + WARN, warn);
                     //有类型 网关才开始接受分析数据
-                    MyMqtt myMqtt = new MyMqtt(iotCode);
+                    new MyMqtt(iotCode);
                     iotCode = null;
 //                    myMqtt.sendMessage("Topic/flexem/fbox/300220030307/system/MDataPubCycle","10");
 //                    myMqtt.sendMessage("Topic/flexem/fbox/300219070310/system/MDataPubCycle","10");
