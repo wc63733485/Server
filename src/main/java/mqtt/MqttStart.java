@@ -19,9 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MqttStart {
 
     public static ConcurrentHashMap<String, HashMap> deviceInfo = new ConcurrentHashMap<String, HashMap>();
-    private static final SqlUtil sqlUtil = new SqlUtil();
+    public static final SqlUtil sqlUtil = new SqlUtil();
     public static final String MOVE = "MOVE";
     public static final String WARN = "WARN";
+    public static JdbcTemplate jdbcTemplate;
+
 
     public static void main(String[] args) {
 
@@ -32,7 +34,7 @@ public class MqttStart {
         ds.setUsername("root");
         ds.setPassword("ASDzxc1993.");
 
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        jdbcTemplate = new JdbcTemplate();
         jdbcTemplate.setDataSource(ds);
 
         String sql = sqlUtil.BaseQueryAll(new DeviceEntity(), "id", 1);
@@ -52,26 +54,23 @@ public class MqttStart {
         DeviceUnitEntity due;
         DeviceTypeBindEntity deviceTypeBindEntity;
         DeviceWarnEntity dwe;
+        move = new HashMap<>();
+        due = new DeviceUnitEntity();
+
+        List<Map<String, Object>> id = jdbcTemplate.queryForList(sqlUtil.BaseQueryAll(due, "id", 1));
+
+        for (Map<String, Object> map : id) {
+            DeviceUnitEntity t = JavaBeanUtil.mapToObject(map, DeviceUnitEntity.class);
+            if (null != t.getMove() && 0 != t.getMove()) {
+                move.put(t.getDataName(), t.getMove());
+            }
+        }
+        deviceInfo.put(MOVE, move);
         for (DeviceEntity device : deviceEntity) {
-            move = new HashMap<>();
             warn = new HashMap<>();
             if (!device.getIOTCode().equals("") && null != device.getIOTCode()) {
                 String iotCode = device.getIOTCode();
                 if (null != device.getDeviceTypeId()) {
-
-                    deviceTypeBindEntity = new DeviceTypeBindEntity();
-                    deviceTypeBindEntity.setDeviceTypeId(device.getDeviceTypeId());
-                    System.out.println(sqlUtil.BaseQueryNoPage(deviceTypeBindEntity, false, "id", 1));
-                    List<Map<String, Object>> id = jdbcTemplate.queryForList(sqlUtil.BaseQueryNoPage(deviceTypeBindEntity, false, "id", 1));
-                    for (Map<String, Object> map : id){
-                        DeviceTypeBindEntity t = JavaBeanUtil.mapToObject(map, DeviceTypeBindEntity.class);
-                        Integer deviceUnitId = t.getDeviceUnitId();
-                        due = JavaBeanUtil.mapToObject(jdbcTemplate.queryForMap(sqlUtil.BaseIdQuery("device_unit", deviceUnitId)), DeviceUnitEntity.class);
-                        if (null != due.getMove() && 0 != due.getMove()) {
-                            move.put(due.getDataName(), due.getMove());
-                        }
-                    }
-
 
 
                     due = new DeviceUnitEntity();
@@ -100,7 +99,6 @@ public class MqttStart {
                     }
 
 
-                    deviceInfo.put(iotCode + MOVE, move);
                     deviceInfo.put(iotCode + WARN, warn);
                     //有类型 网关才开始接受分析数据
                     new MyMqtt(iotCode);

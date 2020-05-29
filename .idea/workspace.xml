@@ -24,18 +24,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3466d4a4-7d4b-4d52-8d5d-815f94295935" name="Default Changelist" comment="5-22 更新">
-      <change afterPath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceTypeBindEntity.java" afterDir="false" />
+    <list default="true" id="3466d4a4-7d4b-4d52-8d5d-815f94295935" name="Default Changelist" comment="5-28 更新">
+      <change afterPath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceWarnLogEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/mqtt/MqttStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mqtt/MqttStart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/mqtt/MyMqtt.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/mqtt/MyMqtt.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceUnitEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceUnitEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceWarnEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/nio/Entity/DeviceWarnEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/mqtt/MqttStart.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mqtt/MqttStart.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/mqtt/MyMqtt$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mqtt/MyMqtt$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/mqtt/MyMqtt.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mqtt/MyMqtt.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/nio/Entity/DeviceUnitEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/nio/Entity/DeviceUnitEntity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/nio/Entity/DeviceWarnEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/nio/Entity/DeviceWarnEntity.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +59,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../sws_quartz" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../huishui" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -178,7 +173,7 @@
       <workItem from="1590371671300" duration="52000" />
       <workItem from="1590371737004" duration="461000" />
       <workItem from="1590372273482" duration="20000" />
-      <workItem from="1590372369791" duration="18348000" />
+      <workItem from="1590372369791" duration="27560000" />
     </task>
     <task id="LOCAL-00001" summary="430">
       <created>1588233149140</created>
@@ -229,7 +224,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590141206343</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="5-28 更新">
+      <created>1590660218381</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1590660218381</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,7 +265,8 @@
     <MESSAGE value="5-15" />
     <MESSAGE value="5-18 pom打包更新" />
     <MESSAGE value="5-22 更新" />
-    <option name="LAST_COMMIT_MESSAGE" value="5-22 更新" />
+    <MESSAGE value="5-28 更新" />
+    <option name="LAST_COMMIT_MESSAGE" value="5-28 更新" />
   </component>
   <component name="WindowStateProjectService">
     <state x="440" y="94" key="#Project_Structure" timestamp="1589798709952">
@@ -274,10 +277,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588121598747" />
-    <state x="765" y="204" key="#com.intellij.ide.util.MemberChooser" timestamp="1590648889522">
+    <state x="765" y="204" key="#com.intellij.ide.util.MemberChooser" timestamp="1590746015390">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="204" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1590648889522" />
+    <state x="765" y="204" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1590746015390" />
     <state x="690" y="309" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1589798824198">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -290,26 +293,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="274" key="#com.intellij.util.ui.classpath.ChooseLibrariesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589796421789" />
-    <state x="1065" y="278" key="FileChooserDialogImpl" timestamp="1590369140583">
+    <state x="1065" y="278" key="FileChooserDialogImpl" timestamp="1590722931298">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="1065" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1590369140583" />
-    <state width="1860" height="344" key="GridCell.Tab.0.bottom" timestamp="1590650652955">
+    <state x="1065" y="278" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1590722931298" />
+    <state width="1860" height="267" key="GridCell.Tab.0.bottom" timestamp="1590739646761">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="344" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590650652955" />
-    <state width="1860" height="344" key="GridCell.Tab.0.center" timestamp="1590650652955">
+    <state width="1860" height="267" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590739646761" />
+    <state width="1860" height="267" key="GridCell.Tab.0.center" timestamp="1590739646761">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="344" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590650652955" />
-    <state width="1860" height="344" key="GridCell.Tab.0.left" timestamp="1590650652955">
+    <state width="1860" height="267" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590739646761" />
+    <state width="1860" height="267" key="GridCell.Tab.0.left" timestamp="1590739646761">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="344" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590650652955" />
-    <state width="1860" height="344" key="GridCell.Tab.0.right" timestamp="1590650652955">
+    <state width="1860" height="267" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590739646761" />
+    <state width="1860" height="267" key="GridCell.Tab.0.right" timestamp="1590739646761">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1860" height="344" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590650652955" />
+    <state width="1860" height="267" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590739646761" />
     <state width="1860" height="344" key="GridCell.Tab.1.bottom" timestamp="1590650652955">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -334,18 +337,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1589801039201" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1590141237480">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1590660220178">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1590141237480" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1590660220178" />
     <state x="789" y="378" key="classpath-attribute-editor" timestamp="1589798838522">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="789" y="378" key="classpath-attribute-editor/0.0.1920.1040@0.0.1920.1040" timestamp="1589798838522" />
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1590054734266">
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1590746129808">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590054734266" />
+    <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590746129808" />
     <state x="690" y="279" key="extract.method.dialog" timestamp="1589157997038">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

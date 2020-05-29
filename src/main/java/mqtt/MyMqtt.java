@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.mongodb.*;
 import com.mongodb.client.MongoDatabase;
+import com.sws.base.util.SqlUtil;
 import nio.Entity.DeviceWarnEntity;
+import nio.Entity.DeviceWarnLogEntity;
 import org.bson.Document;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
@@ -96,7 +98,7 @@ public class MyMqtt {
 
                     String id = arg0.split("/")[3];
                     if (move.size() == 0) {
-                        move = MqttStart.deviceInfo.get(id + MqttStart.MOVE);
+                        move = MqttStart.deviceInfo.get(MqttStart.MOVE);
                     }
                     if (warn.size() == 0) {
                         warn = MqttStart.deviceInfo.get(id + MqttStart.WARN);
@@ -203,21 +205,22 @@ public class MyMqtt {
     }
 
     public void warnHandle(DeviceWarnEntity deviceWarnEntity,Object object, Document jso1,String warnCode,MongoDatabase warnLog) {
+        DeviceWarnLogEntity dwle = new DeviceWarnLogEntity();
         ZonedDateTime today = ZonedDateTime.now();
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        jso1.put("level", deviceWarnEntity.getLevel());
-        jso1.put("warnNumber", deviceWarnEntity.getNumber());
-        jso1.put("remake", deviceWarnEntity.getRemake());
-        jso1.put("source", deviceWarnEntity.getSource());
-        jso1.put("number", object);
-        jso1.put("Date", today.format(formatters));
-        jso1.put("sign", deviceWarnEntity.getSign());
-        jso1.put("IOTCode", deviceWarnEntity.getIOTCode());
-        jso1.put("dataName", deviceWarnEntity.getDataName());
-        jso1.put("time", Calendar.getInstance().getTime().getTime());
-        jso1.put("status", 0);
-        warnMap.put(warnCode, Calendar.getInstance().getTime().getTime());
-        warnLog.getCollection("warnLog").insertOne(jso1);
+        dwle.setLevel(deviceWarnEntity.getLevel());
+        dwle.setWarnNumber(deviceWarnEntity.getNumber());
+        dwle.setRemake(deviceWarnEntity.getRemake());
+        dwle.setSource(deviceWarnEntity.getSource());
+        dwle.setNumber(Double.valueOf(object.toString()));
+        dwle.setDate(today.format(formatters));
+        dwle.setSign(deviceWarnEntity.getSign());
+        dwle.setIOTCode(deviceWarnEntity.getIOTCode());
+        dwle.setDataName(deviceWarnEntity.getDataName());
+        dwle.setTime(String.valueOf(Calendar.getInstance().getTime().getTime()));
+        dwle.setStatus(0);
+        String s = MqttStart.sqlUtil.BaseInsert(deviceWarnEntity);
+        MqttStart.jdbcTemplate.execute(s);
     }
 
     private MqttTopic mqttTopic;
