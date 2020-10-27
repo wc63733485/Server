@@ -1,20 +1,22 @@
+import com.sws.base.util.JavaBeanUtil;
+import mqtt.MyMqttT;
+import nio.Entity.DeviceEntity;
+import nio.Entity.DeviceTypeBindEntity;
+import nio.Entity.DeviceUnitEntity;
+import nio.Entity.DeviceWarnEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Test {
 
-//    public static void main(String[] args) throws Exception {
-//        BaseService bs = new BaseServiceImpl();
-//
-//        PumpHouseEntity pm = new PumpHouseEntity();
-//        pm.setCode("hs2020001");
-//        //1. 查询所有泵房信息
-//        List<Object> code = bs.findAllByPage(pm, 0, 2, "code", -1);
-//        for (Object s : code) {
-//            System.out.println(s.toString());
-//        }
-//    }
-
     public static void main(String[] args) throws Exception {
-        int c8 = Integer.parseInt("c8", 16);
-        System.out.println("args = [" + c8 + "]");
+        MyMqttT myMqtt = new MyMqttT("123321");
+        myMqtt.sendMessage("aaa","啊实打实发放");
 
     }
 }
